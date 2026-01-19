@@ -11,8 +11,9 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { toast } from 'sonner';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Category, Video, categories } from '@/data/mockArticles';
+import { Upload } from 'lucide-react';
 
 interface VideoFormData {
     title: string;
@@ -36,7 +37,7 @@ const Dashboard = () => {
         title: '',
         description: '',
         videoUrl: '',
-        category: 'technology',
+        category: 'movies',
         author: user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Anonymous',
         thumbnailUrl: '',
         isFeatured: false,
@@ -128,7 +129,15 @@ const Dashboard = () => {
                         <h1 className="text-3xl font-bold font-headline">Creator's Dashboard</h1>
                         <p className="text-muted-foreground">Welcome back, {user?.email}</p>
                     </div>
-                    <Button variant="outline" onClick={handleSignOut}>Sign Out</Button>
+                    <div className="flex gap-2">
+                        <Button variant="outline" asChild>
+                            <Link to="/import">
+                                <Upload className="w-4 h-4 mr-2" />
+                                Bulk Import
+                            </Link>
+                        </Button>
+                        <Button variant="outline" onClick={handleSignOut}>Sign Out</Button>
+                    </div>
                 </div>
 
                 <div className="grid lg:grid-cols-2 gap-8">
