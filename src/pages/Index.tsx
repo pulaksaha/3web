@@ -3,6 +3,7 @@ import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import ArticleGrid from '@/components/ArticleGrid';
 import Footer from '@/components/Footer';
+import AdSense from '@/components/AdSense';
 import { Video } from '@/data/mockArticles';
 import { videoService } from '@/services/api';
 
@@ -58,6 +59,12 @@ const Index = () => {
 
       <main className="flex-1">
         {featuredArticle && <HeroSection article={featuredArticle} />}
+
+        {/* Display Ad between hero and content */}
+        <div className="container py-6">
+          <AdSense adFormat="auto" className="my-4" />
+        </div>
+
         <ArticleGrid articles={otherArticles} title="Latest Videos" />
       </main>
 
