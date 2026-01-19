@@ -37,7 +37,7 @@ const Dashboard = () => {
         description: '',
         videoUrl: '',
         category: 'technology',
-        author: user?.displayName || user?.email?.split('@')[0] || 'Anonymous',
+        author: user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Anonymous',
         thumbnailUrl: '',
         isFeatured: false,
     };
@@ -63,7 +63,8 @@ const Dashboard = () => {
 
         setLoading(true);
         try {
-            const token = await user.getIdToken();
+            // const token = await user.getIdToken(); // Supabase handles auth automatically
+            const token = '';
             if (isEditing && editId) {
                 await videoService.updateVideo(editId, formData, token);
                 toast.success('Video updated successfully!');
@@ -102,8 +103,8 @@ const Dashboard = () => {
         if (!user || !window.confirm('Are you sure you want to delete this video?')) return;
 
         try {
-            const token = await user.getIdToken();
-            await videoService.deleteVideo(id, token);
+            // const token = await user.getIdToken();
+            await videoService.deleteVideo(id, '');
             toast.success('Video deleted');
             fetchVideos();
         } catch (error: any) {
