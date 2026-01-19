@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
-import NewsBlocks from '@/components/NewsBlocks';
 import ArticleGrid from '@/components/ArticleGrid';
 import Footer from '@/components/Footer';
 import { Video } from '@/data/mockArticles';
@@ -30,18 +29,21 @@ const Index = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary mx-auto" />
+          <p className="text-muted-foreground">Loading VPLAZA...</p>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-red-600 mb-2">Error</h2>
-          <p className="text-gray-600">{error}</p>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center space-y-2">
+          <h2 className="text-2xl font-bold text-red-600">Error</h2>
+          <p className="text-muted-foreground">{error}</p>
         </div>
       </div>
     );
@@ -51,13 +53,12 @@ const Index = () => {
   const otherArticles = articles.filter((article) => article.id !== featuredArticle?.id);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-background">
       <Header />
 
       <main className="flex-1">
         {featuredArticle && <HeroSection article={featuredArticle} />}
-        <NewsBlocks articles={articles} />
-        <ArticleGrid articles={otherArticles} title="Latest News" />
+        <ArticleGrid articles={otherArticles} title="Latest Videos" />
       </main>
 
       <Footer />

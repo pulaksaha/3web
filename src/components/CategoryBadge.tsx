@@ -19,7 +19,7 @@ const CategoryBadge = ({ category, size = 'md' }: CategoryBadgeProps) => {
 
   return (
     <span
-      className={`inline-block ${categoryColors[category]} text-white font-medium uppercase tracking-wider ${sizeClasses}`}
+      className={`inline-block ${categoryColors[category]} text-white font-medium uppercase tracking-wider ${sizeClasses} rounded-full`}
     >
       {category}
     </span>
