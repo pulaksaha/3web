@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import ArticleGrid from '@/components/ArticleGrid';
 import Footer from '@/components/Footer';
 import AdSense from '@/components/AdSense';
+import AdsterraAd from '@/components/AdsterraAd';
+import AdsterraNativeBanner from '@/components/AdsterraNativeBanner';
+import AdsterraBanner160x300 from '@/components/AdsterraBanner160x300';
 import { Video } from '@/data/mockArticles';
 import { videoService } from '@/services/api';
 
@@ -11,6 +15,9 @@ const Index = () => {
   const [articles, setArticles] = useState<Video[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchParams] = useSearchParams();
+
+  const selectedCategory = searchParams.get('category');
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -50,8 +57,18 @@ const Index = () => {
     );
   }
 
-  const featuredArticle = articles.find((article) => article.isFeatured) || articles[0];
-  const otherArticles = articles.filter((article) => article.id !== featuredArticle?.id);
+  // Filter articles by category if selected
+  const filteredArticles = selectedCategory
+    ? articles.filter(article => article.category === selectedCategory)
+    : articles;
+
+  const featuredArticle = filteredArticles.find((article) => article.isFeatured) || filteredArticles[0];
+  const otherArticles = filteredArticles.filter((article) => article.id !== featuredArticle?.id);
+
+  // Determine the title
+  const gridTitle = selectedCategory
+    ? `${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)} Videos`
+    : 'Latest Videos';
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -65,7 +82,37 @@ const Index = () => {
           <AdSense adFormat="auto" className="my-4" />
         </div>
 
-        <ArticleGrid articles={otherArticles} title="Latest Videos" />
+        {/* Adsterra Ad */}
+        <div className="container py-4">
+          <AdsterraAd
+            variant="secondary"
+            buttonText="View Sponsored Content"
+            className="my-4"
+          />
+        </div>
+
+        {/* Native Banner Ad */}
+        <div className="container py-6">
+          <AdsterraNativeBanner className="my-4" />
+        </div>
+
+        {/* Category indicator */}
+        {selectedCategory && (
+          <div className="container pt-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">
+              Showing: {selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}
+            </div>
+          </div>
+        )}
+
+        <ArticleGrid articles={otherArticles} title={gridTitle} />
+
+        {/* Bottom Ad Section */}
+        <div className="container py-8">
+          <div className="flex justify-center">
+            <AdsterraBanner160x300 />
+          </div>
+        </div>
       </main>
 
       <Footer />

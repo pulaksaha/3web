@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { categories } from '@/data/mockArticles';
 import {
   DropdownMenu,
@@ -42,6 +43,12 @@ const navigationItems = [
 
 const Navigation = ({ mobile, onClose }: NavigationProps) => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleCategoryClick = (category: string) => {
+    navigate(`/?category=${category.toLowerCase()}`);
+    if (onClose) onClose();
+  };
 
   if (mobile) {
     return (
@@ -51,7 +58,7 @@ const Navigation = ({ mobile, onClose }: NavigationProps) => {
             <li key={item.label} className="px-4">
               <button
                 className="w-full flex items-center justify-between py-2 text-left font-medium hover:text-muted-foreground transition-colors"
-                onClick={() => setOpenDropdown(openDropdown === item.label ? null : item.label)}
+                onClick={() => handleCategoryClick(item.label)}
               >
                 {item.label}
                 <ChevronDown
@@ -93,7 +100,10 @@ const Navigation = ({ mobile, onClose }: NavigationProps) => {
           <li key={item.label}>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-1 px-4 py-2 text-sm font-medium hover:bg-accent rounded-sm transition-colors">
+                <button
+                  className="flex items-center gap-1 px-4 py-2 text-sm font-medium hover:bg-accent rounded-sm transition-colors"
+                  onClick={() => handleCategoryClick(item.label)}
+                >
                   {item.label}
                   <ChevronDown className="h-3 w-3" />
                 </button>

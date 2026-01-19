@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Search, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 import TopRibbon from './TopRibbon';
 
@@ -36,12 +37,14 @@ const Header = () => {
 
           {/* Logo */}
           <div className="flex-1 text-center lg:text-left">
-            <h1 className="font-headline text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter text-primary">
-              VPLAZA
-            </h1>
-            <p className="text-xs md:text-sm text-primary/80 font-medium tracking-wide mt-1 uppercase">
-              Premium Multimedia Experience
-            </p>
+            <Link to="/" className="inline-block">
+              <h1 className="font-headline text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter text-primary hover:opacity-80 transition-opacity cursor-pointer">
+                VPLAZA
+              </h1>
+              <p className="text-xs md:text-sm text-primary/80 font-medium tracking-wide mt-1 uppercase">
+                Premium Multimedia Experience
+              </p>
+            </Link>
           </div>
 
           {/* Search */}

@@ -1,4 +1,4 @@
-import { Minus, Plus, Sun, Moon, User, Globe, LayoutDashboard, LogOut } from 'lucide-react';
+import { Minus, Plus, Sun, Moon, User, Globe, LayoutDashboard, LogOut, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -43,8 +43,16 @@ const TopRibbon = () => {
   return (
     <div className="bg-muted border-b border-border">
       <div className="container py-1.5 flex items-center justify-between">
-        {/* Left: Font size controls */}
-        <div className="flex items-center gap-2 text-sm">
+        {/* Left: Home button and Font size controls */}
+        <div className="flex items-center gap-4 text-sm">
+          {/* Home button */}
+          <Button variant="ghost" size="sm" className="h-7 gap-1 text-xs" asChild>
+            <Link to="/">
+              <Home className="h-3 w-3" />
+              <span className="hidden sm:inline">Home</span>
+            </Link>
+          </Button>
+
           <span className="text-muted-foreground hidden sm:inline">Text Size:</span>
           <div className="flex items-center gap-1">
             <Button

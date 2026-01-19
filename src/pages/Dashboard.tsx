@@ -3,6 +3,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { videoService } from '@/services/api';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import AdsterraNativeBanner from '@/components/AdsterraNativeBanner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -123,6 +124,12 @@ const Dashboard = () => {
     return (
         <div className="min-h-screen flex flex-col">
             <Header />
+
+            {/* Native Banner Ad */}
+            <div className="container pt-6">
+                <AdsterraNativeBanner className="my-4" />
+            </div>
+
             <main className="flex-1 container py-8">
                 <div className="flex justify-between items-center mb-8">
                     <div>
