@@ -6,20 +6,20 @@ interface NewsBlocksProps {
 }
 
 const categoryColors: Record<string, { bg: string; border: string; text: string }> = {
-  Science: { bg: 'bg-blue-50 dark:bg-blue-950/30', border: 'border-l-blue-500', text: 'text-blue-700 dark:text-blue-400' },
-  Technology: { bg: 'bg-purple-50 dark:bg-purple-950/30', border: 'border-l-purple-500', text: 'text-purple-700 dark:text-purple-400' },
-  Innovation: { bg: 'bg-green-50 dark:bg-green-950/30', border: 'border-l-green-500', text: 'text-green-700 dark:text-green-400' },
-  Research: { bg: 'bg-orange-50 dark:bg-orange-950/30', border: 'border-l-orange-500', text: 'text-orange-700 dark:text-orange-400' },
-  Gadgets: { bg: 'bg-pink-50 dark:bg-pink-950/30', border: 'border-l-pink-500', text: 'text-pink-700 dark:text-pink-400' },
-  Space: { bg: 'bg-indigo-50 dark:bg-indigo-950/30', border: 'border-l-indigo-500', text: 'text-indigo-700 dark:text-indigo-400' },
+  Movies: { bg: 'bg-category-movies/10', border: 'border-l-category-movies', text: 'text-category-movies' },
+  Series: { bg: 'bg-category-series/10', border: 'border-l-category-series', text: 'text-category-series' },
+  Gaming: { bg: 'bg-category-gaming/10', border: 'border-l-category-gaming', text: 'text-category-gaming' },
+  Music: { bg: 'bg-category-music/10', border: 'border-l-category-music', text: 'text-category-music' },
+  Sports: { bg: 'bg-category-sports/10', border: 'border-l-category-sports', text: 'text-category-sports' },
+  Tech: { bg: 'bg-category-tech/10', border: 'border-l-category-tech', text: 'text-category-tech' },
 };
 
 const NewsBlocks = ({ articles }: NewsBlocksProps) => {
   // Group articles by category
-  const categories = ['Science', 'Technology', 'Innovation', 'Research'];
+  const categories = ['Movies', 'Series', 'Gaming', 'Music'];
 
   const groupedArticles = categories.reduce((acc, category) => {
-    acc[category] = articles.filter(a => a.category === category).slice(0, 4);
+    acc[category] = articles.filter(a => a.category === category.toLowerCase()).slice(0, 4); // Note: category in mock is lowercase
     return acc;
   }, {} as Record<string, Video[]>);
 
@@ -33,8 +33,15 @@ const NewsBlocks = ({ articles }: NewsBlocksProps) => {
     <section className="container py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {categories.map((category) => {
-          const colors = categoryColors[category] || categoryColors.Science;
-          const categoryArticles = groupedArticles[category] || [];
+          const colors = categoryColors[category] || categoryColors.Movies;
+          // Matching logic: Component category (Capitalized) -> Mock category (lowercase)
+          // But wait, the previous code filtered by `a.category === category`.
+          // In mockArticles.ts, categories are lowercase: 'movies', 'series'.
+          // So I need to ensure I filter correctly.
+          const categoryKey = category; // Capitalized for display
+          const mockCategoryKey = category.toLowerCase(); // Lowercase for filtering
+
+          const categoryArticles = articles.filter(a => a.category === mockCategoryKey).slice(0, 4);
 
           return (
             <div
@@ -44,7 +51,7 @@ const NewsBlocks = ({ articles }: NewsBlocksProps) => {
               {/* Block Header */}
               <div className="text-center mb-4 pb-3 border-b border-border">
                 <h3 className={`font-headline text-lg font-bold ${colors.text}`}>
-                  {category} News
+                  {category}
                 </h3>
                 <p className="text-xs text-muted-foreground mt-1">
                   Last Update: {currentDate}

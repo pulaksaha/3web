@@ -6,12 +6,12 @@ interface CategoryBadgeProps {
 }
 
 const categoryColors: Record<Category, string> = {
-  science: 'bg-category-science',
-  technology: 'bg-category-technology',
-  innovation: 'bg-category-innovation',
-  research: 'bg-category-research',
-  gadgets: 'bg-category-gadgets',
-  space: 'bg-category-space',
+  movies: 'bg-category-movies',
+  series: 'bg-category-series',
+  gaming: 'bg-category-gaming',
+  music: 'bg-category-music',
+  sports: 'bg-category-sports',
+  tech: 'bg-category-tech',
 };
 
 const CategoryBadge = ({ category, size = 'md' }: CategoryBadgeProps) => {

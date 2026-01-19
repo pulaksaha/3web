@@ -17,17 +17,9 @@ const Header = () => {
   });
 
   return (
-    <header className="border-b border-border bg-background sticky top-0 z-50">
+    <header className="glass-nav sticky top-0 z-50">
       {/* Top ribbon with font size, language, dark mode, login */}
       <TopRibbon />
-
-      {/* Date bar */}
-      <div className="border-b border-border">
-        <div className="container py-2 flex items-center justify-between text-sm text-muted-foreground">
-          <span>{currentDate}</span>
-          <span className="hidden sm:block">Today's Paper</span>
-        </div>
-      </div>
 
       {/* Main header */}
       <div className="container py-4">
@@ -44,11 +36,11 @@ const Header = () => {
 
           {/* Logo */}
           <div className="flex-1 text-center lg:text-left">
-            <h1 className="font-headline text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
-              Scientific Times
+            <h1 className="font-headline text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter text-primary">
+              VPLAZA
             </h1>
-            <p className="text-xs md:text-sm text-muted-foreground mt-1">
-              Science & Technology News Portal
+            <p className="text-xs md:text-sm text-primary/80 font-medium tracking-wide mt-1 uppercase">
+              Premium Multimedia Experience
             </p>
           </div>
 

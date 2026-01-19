@@ -15,28 +15,28 @@ interface NavigationProps {
 
 const navigationItems = [
   {
-    label: 'Science',
-    subcategories: ['Biology', 'Chemistry', 'Physics', 'Environment', 'Health'],
+    label: 'Movies',
+    subcategories: ['New Releases', 'Top Rated', 'Action', 'Drama', 'Horror'],
   },
   {
-    label: 'Technology',
-    subcategories: ['AI & ML', 'Software', 'Hardware', 'Cybersecurity', 'Web'],
+    label: 'Series',
+    subcategories: ['Trending', 'Originals', 'Sci-Fi', 'Crime', 'Anime'],
   },
   {
-    label: 'Innovation',
-    subcategories: ['Startups', 'Patents', 'Breakthroughs', 'Future Tech'],
+    label: 'Gaming',
+    subcategories: ['Reviews', 'Esports', 'Guides', 'Consoles', 'PC'],
   },
   {
-    label: 'Research',
-    subcategories: ['Academic', 'Industry', 'Grants', 'Publications'],
+    label: 'Music',
+    subcategories: ['Charts', 'New Albums', 'Interviews', 'Concerts'],
   },
   {
-    label: 'Gadgets',
-    subcategories: ['Smartphones', 'Wearables', 'Smart Home', 'Reviews'],
+    label: 'Sports',
+    subcategories: ['Football', 'Basketball', 'Cricket', 'F1', 'Tennis'],
   },
   {
-    label: 'Space',
-    subcategories: ['NASA', 'SpaceX', 'Astronomy', 'Exploration'],
+    label: 'Tech',
+    subcategories: ['AI', 'Mobile', 'Computing', 'VR/AR', 'Future'],
   },
 ];
 
@@ -55,9 +55,8 @@ const Navigation = ({ mobile, onClose }: NavigationProps) => {
               >
                 {item.label}
                 <ChevronDown
-                  className={`h-4 w-4 transition-transform ${
-                    openDropdown === item.label ? 'rotate-180' : ''
-                  }`}
+                  className={`h-4 w-4 transition-transform ${openDropdown === item.label ? 'rotate-180' : ''
+                    }`}
                 />
               </button>
               {openDropdown === item.label && (
