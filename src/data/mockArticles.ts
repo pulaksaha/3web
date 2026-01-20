@@ -10,6 +10,12 @@ export interface Video {
   publishedAt: string;
   thumbnailUrl: string;
   isFeatured?: boolean;
+  duration?: string;
+  views?: number;
+  location?: string;
+  bodytype?: string;
+  scenario?: string;
+  ethnicity?: string;
 }
 
 export const mockVideos: Video[] = [

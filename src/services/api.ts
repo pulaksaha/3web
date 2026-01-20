@@ -14,7 +14,13 @@ const mapVideoFromDB = (dbVideo: any): Video => ({
     author: dbVideo.author,
     publishedAt: new Date(dbVideo.published_at).toISOString().split('T')[0],
     thumbnailUrl: dbVideo.thumbnail_url,
-    isFeatured: dbVideo.is_featured
+    isFeatured: dbVideo.is_featured,
+    duration: dbVideo.duration,
+    views: dbVideo.views,
+    location: dbVideo.location,
+    bodytype: dbVideo.body_type,
+    scenario: dbVideo.scenario,
+    ethnicity: dbVideo.ethnicity
 });
 
 export const videoService = {
@@ -51,7 +57,13 @@ export const videoService = {
                 category: video.category,
                 author: video.author,
                 thumbnail_url: video.thumbnailUrl,
-                is_featured: video.isFeatured
+                is_featured: video.isFeatured,
+                duration: video.duration,
+                views: video.views,
+                location: video.location,
+                body_type: video.bodytype,
+                scenario: video.scenario,
+                ethnicity: video.ethnicity
             })
             .select()
             .single();
@@ -68,6 +80,12 @@ export const videoService = {
         if (video.category) updateData.category = video.category;
         if (video.thumbnailUrl) updateData.thumbnail_url = video.thumbnailUrl;
         if (video.isFeatured !== undefined) updateData.is_featured = video.isFeatured;
+        if (video.duration) updateData.duration = video.duration;
+        if (video.views !== undefined) updateData.views = video.views;
+        if (video.location) updateData.location = video.location;
+        if (video.bodytype) updateData.body_type = video.bodytype;
+        if (video.scenario) updateData.scenario = video.scenario;
+        if (video.ethnicity) updateData.ethnicity = video.ethnicity;
 
         const { data, error } = await supabase
             .from('videos')
@@ -87,5 +105,27 @@ export const videoService = {
             .eq('id', id);
 
         if (error) throw new Error(error.message);
+    },
+
+    async getUniqueTags(): Promise<string[]> {
+        const { data, error } = await supabase
+            .from('videos')
+            .select('category, body_type, scenario, ethnicity, author');
+
+        if (error) throw new Error(error.message);
+
+        const tags = new Set<string>();
+        data?.forEach((video: any) => {
+            if (video.category) tags.add(video.category);
+            if (video.body_type) tags.add(video.body_type);
+            if (video.scenario) tags.add(video.scenario);
+            if (video.ethnicity) tags.add(video.ethnicity);
+            if (video.author) tags.add(video.author);
+        });
+
+        // Convert to array, filter falsy, and sort alphabetical
+        return Array.from(tags)
+            .filter(Boolean)
+            .sort((a, b) => a.localeCompare(b));
     }
 };

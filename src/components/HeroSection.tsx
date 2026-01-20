@@ -31,9 +31,7 @@ const HeroSection = ({ article }: HeroSectionProps) => {
             {article.title}
           </h1>
 
-          <p className="text-base md:text-lg text-white/90 leading-relaxed line-clamp-2 drop-shadow-lg">
-            {article.description}
-          </p>
+
 
           <div className="flex items-center gap-4 text-sm text-white/80">
             <span className="font-medium text-white">{article.author}</span>

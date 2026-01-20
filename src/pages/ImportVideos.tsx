@@ -131,9 +131,23 @@ const ImportVideos = () => {
                                                 <div className="text-xs text-muted-foreground truncate mt-1">
                                                     URL: {video.video_url}
                                                 </div>
-                                                <div className="text-xs text-muted-foreground">
+                                                <div className="text-xs text-muted-foreground mt-1">
                                                     Category: {video.category} | Author: {video.author}
                                                 </div>
+                                                {(video.duration || video.views || video.location) && (
+                                                    <div className="text-xs text-muted-foreground mt-1 flex gap-2 flex-wrap">
+                                                        {video.duration && <span className="bg-background px-1 rounded border">⏱ {video.duration}</span>}
+                                                        {video.views && <span className="bg-background px-1 rounded border">👁 {video.views}</span>}
+                                                        {video.location && <span className="bg-background px-1 rounded border">📍 {video.location}</span>}
+                                                    </div>
+                                                )}
+                                                {(video.body_type || video.scenario || video.ethnicity) && (
+                                                    <div className="text-xs text-muted-foreground mt-1 flex gap-2 flex-wrap">
+                                                        {video.body_type && <span className="bg-background px-1 rounded border">🧘 {video.body_type}</span>}
+                                                        {video.scenario && <span className="bg-background px-1 rounded border">🎭 {video.scenario}</span>}
+                                                        {video.ethnicity && <span className="bg-background px-1 rounded border">🌍 {video.ethnicity}</span>}
+                                                    </div>
+                                                )}
                                             </div>
                                         ))}
                                     </div>

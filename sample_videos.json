@@ -1,0 +1,41 @@
+[
+    {
+        "title": "Morning Yoga Session",
+        "thumbnail": "https://images.unsplash.com/photo-1544367563-12123d8966bf?w=800&auto=format&fit=crop",
+        "streamurl": "https://www.youtube.com/watch?v=sTANio_2E0Q",
+        "duration": "15:30",
+        "views": "1,250",
+        "location": "Los Angeles, CA",
+        "bodytype": "Athletic",
+        "scenario": "Indoor Studio",
+        "ethnicity": "Caucasian",
+        "category": "sports",
+        "author": "Yoga With Adriene"
+    },
+    {
+        "title": "Travel Vlog: Tokyo Streets",
+        "thumbnail": "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&auto=format&fit=crop",
+        "streamurl": "https://www.youtube.com/watch?v=Et78_tqUKSE",
+        "duration": "24:15",
+        "views": 54300,
+        "location": "Tokyo, Japan",
+        "bodytype": "Slim",
+        "scenario": "Urban Exploration",
+        "ethnicity": "Asian",
+        "category": "travel",
+        "author": "Wanderlust TV"
+    },
+    {
+        "title": "Cooking Masterclass: Pasta",
+        "thumbnail": "https://images.unsplash.com/photo-1556910103-1c02745a30bf?w=800&auto=format&fit=crop",
+        "streamurl": "https://www.youtube.com/watch?v=1IszT_guI08",
+        "duration": "45:00",
+        "views": 8900,
+        "location": "Rome, Italy",
+        "bodytype": "Average",
+        "scenario": "Kitchen",
+        "ethnicity": "Latino",
+        "category": "lifestyle",
+        "author": "Chef Mario"
+    }
+]

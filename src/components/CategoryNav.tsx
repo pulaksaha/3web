@@ -5,15 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
-const CATEGORIES = [
-    "American", "4K Porn", "HD Videos", "VR Porn", "The Handy", "18 Year Old",
-    "African", "Amateur", "Anal", "Asian", "Ass", "Babe", "Bangladeshi", "BBC",
-    "BBW", "BDSM", "Big Ass", "Big Cock", "Big Natural Tits", "Big Tits",
-    "Bisexual", "Black", "Blowjob", "Brutal Sex", "Cartoon", "Casting",
-    "Celebrity", "Cheating", "Chinese", "Close-up", "Colombian", "Compilation",
-    "Cougar", "Creampie", "Cuckold", "Cum in Mouth", "Cum Swallowing", "Cumshot",
-    "Deep Throat", "Dirty Talk", "Doggy Style", "Double Penetration"
-];
+
 
 const CategoryNav = () => {
     const [searchParams] = useSearchParams();
@@ -22,6 +14,22 @@ const CategoryNav = () => {
     const [showLeftArrow, setShowLeftArrow] = useState(false);
     const [showRightArrow, setShowRightArrow] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
+    const [categories, setCategories] = useState<string[]>([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                // Import dynamically to avoid circular deps if any, or just use imported service
+                const { videoService } = await import('@/services/api');
+                const tags = await videoService.getUniqueTags();
+                setCategories(tags);
+            } catch (err) {
+                console.error('Failed to fetch categories', err);
+                // Fallback or empty
+            }
+        };
+        fetchCategories();
+    }, []);
 
     // Scroll checking for mobile ribbon
     const checkScroll = () => {
@@ -45,7 +53,7 @@ const CategoryNav = () => {
                 window.removeEventListener('resize', checkScroll);
             };
         }
-    }, []);
+    }, [categories]); // Re-run when categories load
 
     const scroll = (direction: 'left' | 'right') => {
         if (scrollContainerRef.current) {
@@ -57,7 +65,7 @@ const CategoryNav = () => {
         }
     };
 
-    const filteredCategories = CATEGORIES.filter(cat =>
+    const filteredCategories = categories.filter(cat =>
         cat.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
@@ -85,7 +93,7 @@ const CategoryNav = () => {
                     ref={scrollContainerRef}
                     className="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth px-2"
                 >
-                    {CATEGORIES.map((cat) => (
+                    {filteredCategories.map((cat) => (
                         <Link
                             key={cat}
                             to={`/?category=${cat}`}
@@ -141,7 +149,7 @@ const CategoryNav = () => {
                                 key={cat}
                                 to={`/?category=${cat}`}
                                 className={cn(
-                                    "px-2 py-2 rounded-md text-base transition-colors hover:bg-accent hover:text-accent-foreground text-left truncate text-black font-medium",
+                                    "px-2 py-2 rounded-md text-base transition-colors hover:bg-accent hover:text-accent-foreground text-left truncate text-foreground font-medium",
                                     currentCategory === cat ? "bg-accent font-bold" : ""
                                 )}
                                 title={cat}
@@ -156,7 +164,7 @@ const CategoryNav = () => {
                 </div>
 
                 {/* Bottom Button */}
-                <Button variant="ghost" className="w-full justify-between font-bold text-black border-t pt-4 mt-auto rounded-none hover:bg-transparent px-2 h-auto text-lg hover:text-black">
+                <Button variant="ghost" className="w-full justify-between font-bold text-foreground border-t pt-4 mt-auto rounded-none hover:bg-transparent px-2 h-auto text-lg hover:text-foreground">
                     All Categories <ChevronRight className="h-5 w-5" />
                 </Button>
             </aside>

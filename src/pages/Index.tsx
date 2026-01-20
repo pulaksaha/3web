@@ -13,6 +13,8 @@ import AdsterraBanner160x300 from '@/components/AdsterraBanner160x300';
 import { Video } from '@/data/mockArticles';
 import { videoService } from '@/services/api';
 
+const ITEMS_PER_PAGE = 16;
+
 const Index = () => {
   const [articles, setArticles] = useState<Video[]>([]);
   const [loading, setLoading] = useState(true);
@@ -38,6 +40,16 @@ const Index = () => {
     fetchArticles();
   }, []);
 
+  // Reset page when category changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory]);
+
+  // Scroll to top whenever currentPage changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [currentPage]);
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -60,13 +72,28 @@ const Index = () => {
     );
   }
 
-  // Filter articles by category if selected
+  // Filter articles by category/tag if selected
   const filteredArticles = selectedCategory
-    ? articles.filter(article => article.category === selectedCategory)
+    ? articles.filter(article =>
+      article.category === selectedCategory ||
+      article.bodytype === selectedCategory ||
+      article.scenario === selectedCategory ||
+      article.ethnicity === selectedCategory ||
+      article.author === selectedCategory ||
+      article.location === selectedCategory
+    )
     : articles;
 
-  const featuredArticle = filteredArticles.find((article) => article.isFeatured) || filteredArticles[0];
-  const otherArticles = filteredArticles.filter((article) => article.id !== featuredArticle?.id);
+  // Pagination Logic
+  const totalPages = Math.ceil(filteredArticles.length / ITEMS_PER_PAGE);
+  const currentArticles = filteredArticles.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   // Determine the title
   const gridTitle = selectedCategory
@@ -82,21 +109,14 @@ const Index = () => {
         <CategoryNav />
 
         <main className="flex-1 w-full min-w-0">
-          {featuredArticle && <HeroSection article={featuredArticle} />}
+          {/* {featuredArticle && <HeroSection article={featuredArticle} />} */}
 
           {/* Display Ad between hero and content */}
           <div className="container py-6">
             <AdSense adFormat="auto" className="my-4" />
           </div>
 
-          {/* Adsterra Ad */}
-          <div className="container py-4">
-            <AdsterraAd
-              variant="secondary"
-              buttonText="View Sponsored Content"
-              className="my-4"
-            />
-          </div>
+
 
           {/* Native Banner Ad */}
           <div className="container py-6">
@@ -112,14 +132,14 @@ const Index = () => {
             </div>
           )}
 
-          <ArticleGrid articles={otherArticles} title={gridTitle} />
+          <ArticleGrid articles={currentArticles} title={gridTitle} />
 
           {/* Pagination */}
           <div className="container pb-8">
             <Pagination
               currentPage={currentPage}
-              totalPages={22}
-              onPageChange={setCurrentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
             />
           </div>
 

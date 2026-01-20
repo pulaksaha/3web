@@ -26,8 +26,13 @@ const AdsterraNativeBanner = ({ className = '' }: AdsterraNativeBannerProps) => 
     }, []);
 
     return (
-        <div className={`adsterra-native-banner ${className}`}>
-            <div id="container-9a6a842ad36c1b1f79d4c1ed1c0d14fa"></div>
+        <div className={`adsterra-native-banner flex justify-center items-center w-full my-4 ${className}`}>
+            <div
+                id="container-9a6a842ad36c1b1f79d4c1ed1c0d14fa"
+                className="w-full min-h-[100px] bg-muted/20 rounded-lg flex items-center justify-center border border-dashed border-border/50"
+            >
+                <div className="text-xs text-muted-foreground/50">Advertisement Space</div>
+            </div>
         </div>
     );
 };

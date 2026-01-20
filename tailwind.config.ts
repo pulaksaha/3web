@@ -62,12 +62,12 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
         category: {
-          science: "hsl(var(--category-science))",
-          technology: "hsl(var(--category-technology))",
-          innovation: "hsl(var(--category-innovation))",
-          research: "hsl(var(--category-research))",
-          gadgets: "hsl(var(--category-gadgets))",
-          space: "hsl(var(--category-space))",
+          movies: "hsl(var(--category-movies))",
+          series: "hsl(var(--category-series))",
+          gaming: "hsl(var(--category-gaming))",
+          music: "hsl(var(--category-music))",
+          sports: "hsl(var(--category-sports))",
+          tech: "hsl(var(--category-tech))",
         },
       },
       borderRadius: {
