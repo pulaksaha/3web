@@ -130,13 +130,7 @@ const VideoDetail = () => {
                     <div className="flex flex-col gap-12">
                         {/* Main content column */}
                         <div>
-                            <Button
-                                variant="ghost"
-                                className="mb-6 -ml-4 flex items-center gap-2"
-                                onClick={() => navigate(-1)}
-                            >
-                                <ArrowLeft size={16} /> Back
-                            </Button>
+
 
                             <article className="space-y-6">
                                 <div className="space-y-4">

@@ -112,15 +112,9 @@ const Index = () => {
           {/* {featuredArticle && <HeroSection article={featuredArticle} />} */}
 
           {/* Display Ad between hero and content */}
-          <div className="container py-6">
-            <AdSense adFormat="auto" className="my-4" />
-          </div>
-
-
-
           {/* Native Banner Ad */}
-          <div className="container py-6">
-            <AdsterraNativeBanner className="my-4" />
+          <div className="container py-2">
+            <AdsterraNativeBanner className="my-2" />
           </div>
 
           {/* Category indicator */}
