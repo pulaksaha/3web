@@ -11,10 +11,11 @@ import { Label } from '@/components/ui/label';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
 import { useNavigate, Link } from 'react-router-dom';
 import { Category, Video, categories } from '@/data/mockArticles';
-import { Upload } from 'lucide-react';
+import { Upload, Trash2 } from 'lucide-react';
 
 interface VideoFormData {
     title: string;
@@ -33,6 +34,7 @@ const Dashboard = () => {
     const [videos, setVideos] = useState<Video[]>([]);
     const [isEditing, setIsEditing] = useState(false);
     const [editId, setEditId] = useState<string | null>(null);
+    const [selectedVideos, setSelectedVideos] = useState<Set<string>>(new Set());
 
     const initialFormData: VideoFormData = {
         title: '',
@@ -119,6 +121,52 @@ const Dashboard = () => {
         await signOut();
         toast.success('Signed out');
         navigate('/');
+    };
+
+    const handleSelectVideo = (videoId: string, isChecked: boolean) => {
+        const newSelected = new Set(selectedVideos);
+        if (isChecked) {
+            newSelected.add(videoId);
+        } else {
+            newSelected.delete(videoId);
+        }
+        setSelectedVideos(newSelected);
+    };
+
+    const handleSelectAll = (isChecked: boolean) => {
+        if (isChecked) {
+            const allVideoIds = new Set(videos.map(v => v.id));
+            setSelectedVideos(allVideoIds);
+        } else {
+            setSelectedVideos(new Set());
+        }
+    };
+
+    const handleBulkDelete = async () => {
+        if (selectedVideos.size === 0) {
+            toast.error('No videos selected');
+            return;
+        }
+
+        if (!window.confirm(`Are you sure you want to delete ${selectedVideos.size} video(s)?`)) {
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const deletePromises = Array.from(selectedVideos).map(id =>
+                videoService.deleteVideo(id, '')
+            );
+            await Promise.all(deletePromises);
+            toast.success(`Successfully deleted ${selectedVideos.size} video(s)`);
+            setSelectedVideos(new Set());
+            fetchVideos();
+        } catch (error: any) {
+            console.error(error);
+            toast.error('Failed to delete some videos');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -252,26 +300,51 @@ const Dashboard = () => {
                     {/* List Section */}
                     <Card>
                         <CardHeader>
-                            <CardTitle>Manage Videos</CardTitle>
-                            <CardDescription>A list of all published videos.</CardDescription>
+                            <div className="flex items-center justify-between">
+                                <div className="flex-1">
+                                    <CardTitle>Manage Videos</CardTitle>
+                                    <CardDescription>A list of all published videos.</CardDescription>
+                                </div>
+                                {videos.length > 0 && (
+                                    <div className="flex items-center gap-2">
+                                        <Checkbox
+                                            id="select-all"
+                                            checked={videos.length > 0 && selectedVideos.size === videos.length}
+                                            onCheckedChange={handleSelectAll}
+                                        />
+                                        <Label htmlFor="select-all" className="text-sm cursor-pointer">
+                                            Select All
+                                        </Label>
+                                    </div>
+                                )}
+                            </div>
                         </CardHeader>
                         <CardContent>
                             <div className="space-y-4">
                                 {videos.length > 0 ? (
                                     videos.map((video) => (
-                                        <div key={video.id} className="flex items-start justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors">
-                                            <div className="flex gap-3 overflow-hidden">
-                                                <div className="w-24 h-16 bg-muted rounded overflow-hidden flex-shrink-0">
-                                                    <img src={video.thumbnailUrl} alt={video.title} className="w-full h-full object-cover" />
-                                                </div>
-                                                <div className="min-w-0">
-                                                    <h4 className="font-semibold truncate leading-tight line-clamp-1">{video.title}</h4>
-                                                    <p className="text-xs text-muted-foreground capitalize mt-1">{video.category} • {video.publishedAt}</p>
-                                                </div>
+                                        <div key={video.id} className="flex items-start gap-3 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
+                                            <div className="pt-1">
+                                                <Checkbox
+                                                    id={`video-${video.id}`}
+                                                    checked={selectedVideos.has(video.id)}
+                                                    onCheckedChange={(checked) => handleSelectVideo(video.id, checked as boolean)}
+                                                />
                                             </div>
-                                            <div className="flex flex-col gap-2 ml-2">
-                                                <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => handleEdit(video)}>Edit</Button>
-                                                <Button size="sm" variant="destructive" className="h-7 text-xs" onClick={() => handleDelete(video.id)}>Delete</Button>
+                                            <div className="flex items-start justify-between flex-1 overflow-hidden">
+                                                <div className="flex gap-3 overflow-hidden flex-1">
+                                                    <div className="w-24 h-16 bg-muted rounded overflow-hidden flex-shrink-0">
+                                                        <img src={video.thumbnailUrl} alt={video.title} className="w-full h-full object-cover" />
+                                                    </div>
+                                                    <div className="min-w-0">
+                                                        <h4 className="font-semibold truncate leading-tight line-clamp-1">{video.title}</h4>
+                                                        <p className="text-xs text-muted-foreground capitalize mt-1">{video.category} • {video.publishedAt}</p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex flex-col gap-2 ml-2">
+                                                    <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => handleEdit(video)}>Edit</Button>
+                                                    <Button size="sm" variant="destructive" className="h-7 text-xs" onClick={() => handleDelete(video.id)}>Delete</Button>
+                                                </div>
                                             </div>
                                         </div>
                                     ))
@@ -282,6 +355,24 @@ const Dashboard = () => {
                         </CardContent>
                     </Card>
                 </div>
+
+                {/* Floating Action Bar */}
+                {selectedVideos.size > 0 && (
+                    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-background border border-border rounded-lg shadow-lg p-4 flex items-center gap-4">
+                        <p className="text-sm font-medium">
+                            {selectedVideos.size} video{selectedVideos.size > 1 ? 's' : ''} selected
+                        </p>
+                        <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={handleBulkDelete}
+                            disabled={loading}
+                        >
+                            <Trash2 className="w-4 h-4 mr-2" />
+                            {loading ? 'Deleting...' : 'Delete Selected'}
+                        </Button>
+                    </div>
+                )}
             </main>
             <Footer />
         </div>
