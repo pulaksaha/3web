@@ -40,12 +40,18 @@
     --radius: 0.5rem;
 
     /* Category accent colors - Vibrant for Streaming */
-    --category-movies: 340 82% 52%;   /* Pink/Red */
-    --category-series: 262 83% 58%;   /* Purple */
-    --category-gaming: 142 76% 36%;   /* Green */
-    --category-music: 47 95% 58%;     /* Yellow/Gold */
-    --category-sports: 217 91% 60%;   /* Blue */
-    --category-tech: 190 95% 39%;     /* Cyan */
+    --category-movies: 340 82% 52%;
+    /* Pink/Red */
+    --category-series: 262 83% 58%;
+    /* Purple */
+    --category-gaming: 142 76% 36%;
+    /* Green */
+    --category-music: 47 95% 58%;
+    /* Yellow/Gold */
+    --category-sports: 217 91% 60%;
+    /* Blue */
+    --category-tech: 190 95% 39%;
+    /* Cyan */
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -58,7 +64,7 @@
   }
 
   /* Default Dark Mode Look for VPLAZA */
-  .dark, :root { 
+  .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
 
@@ -99,7 +105,12 @@
     font-family: 'Outfit', sans-serif;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Outfit', sans-serif;
     letter-spacing: -0.02em;
   }
@@ -117,5 +128,18 @@
 
   .glass-nav {
     @apply bg-background/80 backdrop-blur-md border-b border-white/10;
+  }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
   }
 }

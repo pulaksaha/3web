@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Header from '@/components/Header';
+import CategoryNav from '@/components/CategoryNav';
 import HeroSection from '@/components/HeroSection';
 import ArticleGrid from '@/components/ArticleGrid';
+import Pagination from '@/components/Pagination';
 import Footer from '@/components/Footer';
 import AdSense from '@/components/AdSense';
 import AdsterraAd from '@/components/AdsterraAd';
@@ -16,6 +18,7 @@ const Index = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchParams] = useSearchParams();
+  const [currentPage, setCurrentPage] = useState(1);
 
   const selectedCategory = searchParams.get('category');
 
@@ -74,46 +77,60 @@ const Index = () => {
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
 
-      <main className="flex-1">
-        {featuredArticle && <HeroSection article={featuredArticle} />}
+      <div className="flex flex-col lg:flex-row flex-1">
+        {/* Responsive Category Navigation */}
+        <CategoryNav />
 
-        {/* Display Ad between hero and content */}
-        <div className="container py-6">
-          <AdSense adFormat="auto" className="my-4" />
-        </div>
+        <main className="flex-1 w-full min-w-0">
+          {featuredArticle && <HeroSection article={featuredArticle} />}
 
-        {/* Adsterra Ad */}
-        <div className="container py-4">
-          <AdsterraAd
-            variant="secondary"
-            buttonText="View Sponsored Content"
-            className="my-4"
-          />
-        </div>
+          {/* Display Ad between hero and content */}
+          <div className="container py-6">
+            <AdSense adFormat="auto" className="my-4" />
+          </div>
 
-        {/* Native Banner Ad */}
-        <div className="container py-6">
-          <AdsterraNativeBanner className="my-4" />
-        </div>
+          {/* Adsterra Ad */}
+          <div className="container py-4">
+            <AdsterraAd
+              variant="secondary"
+              buttonText="View Sponsored Content"
+              className="my-4"
+            />
+          </div>
 
-        {/* Category indicator */}
-        {selectedCategory && (
-          <div className="container pt-4">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">
-              Showing: {selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}
+          {/* Native Banner Ad */}
+          <div className="container py-6">
+            <AdsterraNativeBanner className="my-4" />
+          </div>
+
+          {/* Category indicator */}
+          {selectedCategory && (
+            <div className="container pt-4">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium">
+                Showing: {selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}
+              </div>
+            </div>
+          )}
+
+          <ArticleGrid articles={otherArticles} title={gridTitle} />
+
+          {/* Pagination */}
+          <div className="container pb-8">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={22}
+              onPageChange={setCurrentPage}
+            />
+          </div>
+
+          {/* Bottom Ad Section */}
+          <div className="container py-8">
+            <div className="flex justify-center">
+              <AdsterraBanner160x300 />
             </div>
           </div>
-        )}
-
-        <ArticleGrid articles={otherArticles} title={gridTitle} />
-
-        {/* Bottom Ad Section */}
-        <div className="container py-8">
-          <div className="flex justify-center">
-            <AdsterraBanner160x300 />
-          </div>
-        </div>
-      </main>
+        </main>
+      </div>
 
       <Footer />
     </div>

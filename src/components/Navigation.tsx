@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { categories } from '@/data/mockArticles';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +11,7 @@ import {
 interface NavigationProps {
   mobile?: boolean;
   onClose?: () => void;
+  theme?: 'light' | 'dark';
 }
 
 const navigationItems = [
@@ -41,7 +41,7 @@ const navigationItems = [
   },
 ];
 
-const Navigation = ({ mobile, onClose }: NavigationProps) => {
+const Navigation = ({ mobile, onClose, theme = 'light' }: NavigationProps) => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -49,6 +49,14 @@ const Navigation = ({ mobile, onClose }: NavigationProps) => {
     navigate(`/?category=${category.toLowerCase()}`);
     if (onClose) onClose();
   };
+
+  const desktopItemClass = theme === 'dark'
+    ? "flex items-center gap-1 px-4 py-2 text-sm font-medium text-white hover:bg-white/10 rounded-sm transition-colors"
+    : "flex items-center gap-1 px-4 py-2 text-sm font-medium hover:bg-accent rounded-sm transition-colors";
+
+  const desktopLinkClass = theme === 'dark'
+    ? "px-4 py-2 text-sm font-medium text-white hover:bg-white/10 rounded-sm transition-colors inline-block"
+    : "px-4 py-2 text-sm font-medium hover:bg-accent rounded-sm transition-colors inline-block";
 
   if (mobile) {
     return (
@@ -94,14 +102,14 @@ const Navigation = ({ mobile, onClose }: NavigationProps) => {
   }
 
   return (
-    <nav className="container">
-      <ul className="flex items-center justify-center gap-1 py-2">
+    <nav>
+      <ul className="flex items-center gap-1">
         {navigationItems.map((item) => (
           <li key={item.label}>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
-                  className="flex items-center gap-1 px-4 py-2 text-sm font-medium hover:bg-accent rounded-sm transition-colors"
+                  className={desktopItemClass}
                   onClick={() => handleCategoryClick(item.label)}
                 >
                   {item.label}
@@ -121,7 +129,7 @@ const Navigation = ({ mobile, onClose }: NavigationProps) => {
         <li>
           <a
             href="#"
-            className="px-4 py-2 text-sm font-medium hover:bg-accent rounded-sm transition-colors inline-block"
+            className={desktopLinkClass}
           >
             About
           </a>
