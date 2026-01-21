@@ -4,9 +4,8 @@ import { videoService } from '@/services/api';
 import { Video } from '@/data/mockArticles';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import AdsterraNativeBanner from '@/components/AdsterraNativeBanner';
-import AdsterraBanner160x300 from '@/components/AdsterraBanner160x300';
-import AdsterraAd from '@/components/AdsterraAd';
+import Link from 'react-router-dom';
+import AdSpace from '@/components/AdSpace';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, User, ArrowLeft } from 'lucide-react';
@@ -79,6 +78,7 @@ const VideoDetail = () => {
     if (!video) return null;
 
     // Helper to inject ads into recommendations
+    // Helper to inject ads into recommendations
     const renderRecommendations = () => {
         const items = [];
         const videosToShow = recommendedVideos.slice(0, visibleCount);
@@ -123,8 +123,9 @@ const VideoDetail = () => {
             <main className="flex-1">
                 {/* Native Banner Ad before content */}
                 <div className="container py-6">
-                    <AdsterraNativeBanner className="my-4" />
+                    <AdSpace variant="native" className="my-4" />
                 </div>
+
 
                 <div className="container py-8 max-w-5xl mx-auto">
                     <div className="flex flex-col gap-12">
@@ -176,7 +177,7 @@ const VideoDetail = () => {
                                         ) : (
                                             <div className="col-span-1 min-h-[300px] flex items-center justify-center bg-muted/30 rounded-xl border border-dashed">
                                                 <div className="w-full h-full p-2">
-                                                    <AdsterraAd variant="secondary" className="w-full h-full min-h-[250px]" />
+                                                    <AdSpace variant="card" className="w-full h-full min-h-[250px]" />
                                                 </div>
                                             </div>
                                         )}

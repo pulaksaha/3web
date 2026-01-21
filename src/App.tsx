@@ -25,6 +25,9 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/latest" element={<Index />} />
+              <Route path="/top-rated" element={<Index />} />
+              <Route path="/most-viewed" element={<Index />} />
               <Route path="/video/:id" element={<VideoDetail />} />
               <Route path="/login" element={<Login />} />
               <Route element={<ProtectedRoute />}>

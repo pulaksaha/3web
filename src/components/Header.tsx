@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Search, Menu, X, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
 import {
   DropdownMenu,
@@ -31,8 +31,18 @@ const RIBBON_LINKS = [
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { language, setLanguage, isDarkMode, toggleDarkMode } = useTheme();
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   const currentLanguage = languages.find(l => l.code === language) || languages[0];
+
+  const handleSearch = (e?: React.FormEvent) => {
+    e?.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery(''); // Optional: clear search after submit
+    }
+  };
 
   return (
     <header className="flex flex-col w-full z-50 sticky top-0 shadow-sm font-sans">
@@ -67,15 +77,17 @@ const Header = () => {
 
         {/* Search Bar - Full Width on Mobile (Row 2), Centered on Desktop */}
         <div className="w-full md:flex-1 md:max-w-4xl mx-0 md:mx-4 order-last md:order-none mt-1 md:mt-0">
-          <div className="relative w-full flex">
+          <form onSubmit={handleSearch} className="relative w-full flex">
             <Input
               className="rounded-l-md rounded-r-none border-r-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-muted/30 h-10 w-full"
               placeholder="Search for videos"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <Button className="rounded-l-none rounded-r-md bg-destructive hover:bg-destructive/90 px-4 md:px-6 h-10 shrink-0">
+            <Button type="submit" className="rounded-l-none rounded-r-md bg-destructive hover:bg-destructive/90 px-4 md:px-6 h-10 shrink-0">
               <Search className="h-5 w-5" />
             </Button>
-          </div>
+          </form>
         </div>
 
         {/* Right Actions (Desktop Only mainly) */}

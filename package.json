@@ -55,6 +55,7 @@
     "express": "^4.21.2",
     "firebase": "^12.7.0",
     "firebase-admin": "^13.6.0",
+    "fluid-player": "^3.57.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.462.0",
     "next-themes": "^0.3.0",

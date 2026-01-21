@@ -21,8 +21,8 @@ const CategoryNav = () => {
             try {
                 // Import dynamically to avoid circular deps if any, or just use imported service
                 const { videoService } = await import('@/services/api');
-                const tags = await videoService.getUniqueTags();
-                setCategories(tags);
+                const uniqueCategories = await videoService.getUniqueCategories();
+                setCategories(uniqueCategories);
             } catch (err) {
                 console.error('Failed to fetch categories', err);
                 // Fallback or empty

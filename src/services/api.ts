@@ -24,11 +24,21 @@ const mapVideoFromDB = (dbVideo: any): Video => ({
 });
 
 export const videoService = {
-    async getVideos(): Promise<Video[]> {
-        const { data, error } = await supabase
-            .from('videos')
-            .select('*')
-            .order('published_at', { ascending: false });
+    async getVideos(sortBy: 'latest' | 'views' | 'top_rated' = 'latest'): Promise<Video[]> {
+        let query = supabase.from('videos').select('*');
+
+        switch (sortBy) {
+            case 'views':
+            case 'top_rated': // Aliasing top_rated to views for now as requested
+                query = query.order('views', { ascending: false });
+                break;
+            case 'latest':
+            default:
+                query = query.order('published_at', { ascending: false });
+                break;
+        }
+
+        const { data, error } = await query;
 
         if (error) throw new Error(error.message);
 
@@ -127,5 +137,37 @@ export const videoService = {
         return Array.from(tags)
             .filter(Boolean)
             .sort((a, b) => a.localeCompare(b));
+    },
+
+    async getUniqueCategories(): Promise<string[]> {
+        const { data, error } = await supabase
+            .from('videos')
+            .select('category');
+
+        if (error) throw new Error(error.message);
+
+        const categories = new Set<string>();
+        data?.forEach((video: any) => {
+            if (video.category) categories.add(video.category);
+        });
+
+        // Convert to array, filter falsy, and sort alphabetical
+        return Array.from(categories)
+            .filter(Boolean)
+            .sort((a, b) => a.localeCompare(b));
+    },
+
+    async searchVideos(query: string): Promise<Video[]> {
+        if (!query) return [];
+
+        const { data, error } = await supabase
+            .from('videos')
+            .select('*')
+            .or(`title.ilike.%${query}%,description.ilike.%${query}%,category.ilike.%${query}%,author.ilike.%${query}%`)
+            .order('published_at', { ascending: false });
+
+        if (error) throw new Error(error.message);
+
+        return (data || []).map(mapVideoFromDB);
     }
 };

@@ -29,6 +29,7 @@ export const mockVideos: Video[] = [
     publishedAt: '2026-01-10',
     thumbnailUrl: 'https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=800&auto=format&fit=crop',
     isFeatured: true,
+    duration: '2:34',
   },
   {
     id: '2',
@@ -39,6 +40,7 @@ export const mockVideos: Video[] = [
     author: 'Rockstar Games',
     publishedAt: '2026-01-09',
     thumbnailUrl: 'https://images.unsplash.com/photo-1593305841991-05c29736ce37?w=800&auto=format&fit=crop',
+    duration: '1:30',
   },
   {
     id: '3',
@@ -49,6 +51,7 @@ export const mockVideos: Video[] = [
     author: 'Netflix',
     publishedAt: '2026-01-09',
     thumbnailUrl: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800&auto=format&fit=crop',
+    duration: '0:58',
   },
   {
     id: '4',
@@ -59,6 +62,7 @@ export const mockVideos: Video[] = [
     author: 'Apple',
     publishedAt: '2026-01-08',
     thumbnailUrl: 'https://images.unsplash.com/photo-1556656793-02715d8dd6f8?w=800&auto=format&fit=crop',
+    duration: '1:45',
   },
   {
     id: '5',
@@ -69,6 +73,7 @@ export const mockVideos: Video[] = [
     author: 'UEFA',
     publishedAt: '2026-01-08',
     thumbnailUrl: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&auto=format&fit=crop',
+    duration: '10:05',
   },
   {
     id: '6',
@@ -79,6 +84,7 @@ export const mockVideos: Video[] = [
     author: 'V-Music',
     publishedAt: '2026-01-07',
     thumbnailUrl: 'https://images.unsplash.com/photo-1514525253440-b393452e3726?w=800&auto=format&fit=crop',
+    duration: '15:20',
   },
 ];
 
